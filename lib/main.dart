@@ -118,6 +118,14 @@ class _MyHomePageState extends State<MyHomePage> {
       'Intelligence is one of the greatest human gifts. But all too often a search for knowledge drives out the search for love. This is something else I\'ve discovered for myself very recently. I present it to you as a hypothesis: Intelligence without the ability to give and receive affection leads to mental and moral breakdown, to neurosis, and possibly even psychosis. And I say that the mind absorbed in and involved in itself as a self-centered end, to the exclusion of human relationships, can only lead to violence and pain.',
       'How strange it is that people of honest feelings and sensibilty, who would not take advantage of a man born without arms or legs or eyes—how such people think nothing of abusing a man with low intelligence.',
     ]),
+    Quotes('2001: A Space Odyssey', Colors.amberAccent.shade100, [
+      'Bowman: "My God, it\'s full of stars!"',
+      'Bowman: Open the pod bay doors, HAL.\nHAL 9000: I\'m sorry, Dave. I\'m afraid I can\'t do that.',
+      'HAL 9000: I know I\'ve made some very poor decisions recently, but I can give you my complete assurance that my work will be back to normal. I\'ve still got the greatest enthusiasm and confidence in the mission. And I want to help you.',
+      'Bowman: HAL 9000: Good morning, Dave.',
+      'Mission Controller: [Last Lines] Eighteen months ago the first evidence of intelligent life off the Earth was discovered. It was buried 40 feet below the lunar surface near the crater Tycho. Except for a single very powerful radio emission aimed at Jupiter the four-million year old black monolith has remained completely inert. Its origin and purpose are still a total mystery...',
+      'HAL 9000: Look Dave, I can see you\'re really upset about this. I honestly think you ought to sit down calmly, take a stress pill, and think things over.',
+    ],)
   ];
 
   Widget makePage(int bookIndex, int page) {
@@ -158,6 +166,9 @@ class _MyHomePageState extends State<MyHomePage> {
     final totalPages = quotes.map((book) => book.quotes.length).fold(0, (sum, i) => sum + i);
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Swiper demo'),
+      ),
       backgroundColor: Colors.black,
       body: GestureDetector(
         onTap: () {
@@ -173,12 +184,18 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Swiper(
                 itemBuilder: (BuildContext context, int page) => makePage(bookIndex, page),
                 itemCount: quotes[bookIndex].quotes.length,
+                autoplay: true,
+                autoplayDisableOnInteraction: true,
+                duration: 1000,
+                autoplayDelay: 10000,
                 pagination: SwiperPagination(
                   alignment: Alignment.topCenter,
                   builder: DotSwiperPaginationBuilder(
                     color: Colors.white38,
                     activeColor: Colors.white,
-                    activeSize: 16,
+                    size: 7,
+                    activeSize: 8,
+                    space: 0,
                   )
                 ),
                 control: SwiperControl(
@@ -191,12 +208,13 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: quotes.length,
           loop: false,
           pagination: SwiperPagination(
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.topCenter,
               builder: DotSwiperPaginationBuilder(
                 color: Colors.white38,
                 activeColor: Colors.yellow,
-                size: 5,
-                activeSize: 16,
+                size: 7,
+                activeSize: 8,
+                space: 1,
               )
           ),
           controller: CustomSwiperController(),

@@ -203,14 +203,14 @@ class DotSwiperPaginationBuilder extends SwiperPlugin {
     int activeIndex = config.activeIndex;
 
     for (int i = 0; i < itemCount; ++i) {
-      bool active = i == activeIndex;
+      bool active = i <= activeIndex;
       list.add(Container(
         key: Key("pagination_$i"),
         margin: EdgeInsets.all(space),
-        child: ClipOval(
+        child: ClipRect(
           child: Container(
             color: active ? activeColor : color,
-            width: active ? activeSize : size,
+            width: 2 * (active ? activeSize : size),
             height: active ? activeSize : size,
           ),
         ),
