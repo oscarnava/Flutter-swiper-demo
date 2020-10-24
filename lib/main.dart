@@ -8,12 +8,14 @@ void main() {
   runApp(MyApp());
 }
 
-class Book {
-  String title;
-  int pages;
-  Book(String title, int pages) {
-    this.title = title;
-    this.pages = pages;
+class Quotes {
+  String source;
+  Color color;
+  List<String> quotes;
+  Quotes(String title, Color color, List<String> quotes) {
+    this.source = title;
+    this.color = color;
+    this.quotes = quotes;
   }
 }
 
@@ -82,47 +84,116 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<Quotes> quotes = [
+    Quotes(
+      'The Lord of the rings',
+      Colors.brown.shade500,
+      [
+        'There is only one Lord of the Ring, only one who can bend it to his will. And he does not share power.',
+        'That there’s some good in this world, Mr. Frodo… and it’s worth fighting for.',
+        'Even the smallest person can change the course of the future.',
+        'The time of the Elves… is over. Do we leave Middle-Earth to its fate? Do we let them stand alone?',
+        'We swears, to serve the master of the Precious. We will swear on… on the Precious!',
+        'I am Gandalf the White. And I come back to you now… at the turn of the tide.',
+        'Oh, it’s quite simple. If you are a friend, you speak the password, and the doors will open.',
+        'Well, what can I tell you? Life in the wide world goes on much as it has this past Age, full of its own comings and goings, scarcely aware of the existence of Hobbits, for which I am very thankful.',
+        'For the time will soon come when Hobbits will shape the fortunes of all.',
+        'There is no curse in Elvish, Entish, or the tongues of Men for this treachery.',
+      ],
+    ),
+    Quotes(
+      'The shining',
+      Colors.blueGrey,
+      [
+        'Jack Torrance: Heeere\'s Johnny!',
+        'Nurse: Who\'s Tony?\nDanny Torrance: He\'s the little boy that lives in his mouth.',
+        'Wendy? Darling? Light, of my life. I\'m not gonna hurt ya. You didn\'t let me finish my sentence. I said, I\'m not gonna hurt ya. I\'m just going to bash your brains in.',
+      ],
+    ),
+    Quotes('Flowers for Algernon Quotes', Colors.blueAccent, [
+      'I don’t know what’s worse: to not know what you are and be happy, or to become what you’ve always wanted to be, and feel alone.',
+      'I am afraid. Not of life, or death, or nothingness, but of wasting it as if I had never been.',
+    ]),
+  ];
 
-  List<Book> books = [Book('The Lord of the rings', 3), Book('The shining', 2), Book('Flores para Algernon', 1)];
-  
-  Widget makePage(int page) {
+  Widget makePage(int bookIndex, int page) {
     return Container(
-      color: Colors.grey,
-      child: Center(
-        child:
-          Text('This is page $page',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20.0,
+      color: quotes[bookIndex].color,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 48, 8, 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Quotes from "${quotes[bookIndex].source}"',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30.0,
+                color: Colors.black,
+              ),
             ),
-          )
-      )
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24),
+              child: Text(
+                quotes[bookIndex].quotes[page],
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final totalPages = books.map((book) => book.pages).fold(0, (sum, i) => sum + i);
+    final totalPages = quotes.map((book) => book.quotes.length).fold(0, (sum, i) => sum + i);
 
     return Scaffold(
+      backgroundColor: Colors.black,
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           print('Tap!');
         },
         child: Swiper(
           layout: SwiperLayout.TINDER,
           itemWidth: double.infinity,
           itemHeight: double.infinity,
-          itemBuilder: (BuildContext context, int index){
-            return makePage(index);
+          itemBuilder: (BuildContext context, int bookIndex) {
+            return Swiper(
+              itemBuilder: (BuildContext context, int page) => makePage(bookIndex, page),
+              itemCount: quotes[bookIndex].quotes.length,
+              pagination: SwiperPagination(
+                alignment: Alignment.topCenter,
+                builder: DotSwiperPaginationBuilder(
+                  color: Colors.white38,
+                  activeColor: Colors.white,
+                  activeSize: 16,
+                )
+              ),
+              control: SwiperControl(
+                color: Colors.yellow.shade500
+              ),
+            );
             // return Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fitWidth);
           },
-          index: 3,
-          itemCount: totalPages,
+          itemCount: quotes.length,
           loop: false,
-          pagination: SwiperPagination(),
+          pagination: SwiperPagination(
+              alignment: Alignment.bottomCenter,
+              builder: DotSwiperPaginationBuilder(
+                color: Colors.white38,
+                activeColor: Colors.yellow,
+                size: 5,
+                activeSize: 16,
+              )
+          ),
           controller: CustomSwiperController(),
-          onIndexChanged: (index){
+          onIndexChanged: (index) {
             print('Index changed to $index!');
           },
         ),
