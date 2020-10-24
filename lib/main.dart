@@ -110,9 +110,13 @@ class _MyHomePageState extends State<MyHomePage> {
         'Wendy? Darling? Light, of my life. I\'m not gonna hurt ya. You didn\'t let me finish my sentence. I said, I\'m not gonna hurt ya. I\'m just going to bash your brains in.',
       ],
     ),
-    Quotes('Flowers for Algernon Quotes', Colors.blueAccent, [
+    Quotes('Flowers for Algernon', Colors.blueAccent, [
       'I don’t know what’s worse: to not know what you are and be happy, or to become what you’ve always wanted to be, and feel alone.',
       'I am afraid. Not of life, or death, or nothingness, but of wasting it as if I had never been.',
+      'Thank God for books and music and things I can think about.',
+      'Now I understand that one of the important reasons for going to college and getting an education is to learn that the things you\'ve believed in all your life aren\'t true, and that nothing is what it appears to be.',
+      'Intelligence is one of the greatest human gifts. But all too often a search for knowledge drives out the search for love. This is something else I\'ve discovered for myself very recently. I present it to you as a hypothesis: Intelligence without the ability to give and receive affection leads to mental and moral breakdown, to neurosis, and possibly even psychosis. And I say that the mind absorbed in and involved in itself as a self-centered end, to the exclusion of human relationships, can only lead to violence and pain.',
+      'How strange it is that people of honest feelings and sensibilty, who would not take advantage of a man born without arms or legs or eyes—how such people think nothing of abusing a man with low intelligence.',
     ]),
   ];
 
@@ -164,19 +168,22 @@ class _MyHomePageState extends State<MyHomePage> {
           itemWidth: double.infinity,
           itemHeight: double.infinity,
           itemBuilder: (BuildContext context, int bookIndex) {
-            return Swiper(
-              itemBuilder: (BuildContext context, int page) => makePage(bookIndex, page),
-              itemCount: quotes[bookIndex].quotes.length,
-              pagination: SwiperPagination(
-                alignment: Alignment.topCenter,
-                builder: DotSwiperPaginationBuilder(
-                  color: Colors.white38,
-                  activeColor: Colors.white,
-                  activeSize: 16,
-                )
-              ),
-              control: SwiperControl(
-                color: Colors.yellow.shade500
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Swiper(
+                itemBuilder: (BuildContext context, int page) => makePage(bookIndex, page),
+                itemCount: quotes[bookIndex].quotes.length,
+                pagination: SwiperPagination(
+                  alignment: Alignment.topCenter,
+                  builder: DotSwiperPaginationBuilder(
+                    color: Colors.white38,
+                    activeColor: Colors.white,
+                    activeSize: 16,
+                  )
+                ),
+                control: SwiperControl(
+                  color: Colors.yellow.shade500
+                ),
               ),
             );
             // return Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fitWidth);
